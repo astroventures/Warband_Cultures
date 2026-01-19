@@ -1,0 +1,36 @@
+# BMM Module Configuration
+# BMAD Method Module for Software Development
+
+module:
+  id: "bmm"
+  name: "BMAD Method Module"
+  version: "1.0.0"
+  installed: "2026-01-19"
+  role: "secondary"
+
+settings:
+  default_track: "auto"  # auto | quick-flow | bmad-method | enterprise
+  documentation_first: true
+  sprint_tracking: true
+
+paths:
+  projects: "_bmad/bmm/projects/"
+  docs: "docs/"
+  artifacts: "docs/"
+
+workflows:
+  default_sequence:
+    - "document-project"
+    - "workflow-init"
+    - "planning-track"
+
+integration:
+  orchestration: true
+  meta_orchestration: true
+
+notes: |
+  BMM module is secondary for this project.
+  Use for:
+  - Module System Python scripting
+  - Any tooling/automation development
+  - Documentation workflows

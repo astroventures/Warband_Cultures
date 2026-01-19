@@ -1,0 +1,45 @@
+# BMGD Module Configuration
+# BMAD Game Development Module
+
+module:
+  id: "bmgd"
+  name: "Game Development Module"
+  version: "1.0.0"
+  installed: "2026-01-19"
+  role: "primary"
+
+settings:
+  engine: "other"  # Mount & Blade: Warband (custom engine)
+  primary_language: "Python"  # Module System uses Python
+  game_title: "Mount & Blade: Warband"
+  project_type: "modding"
+
+paths:
+  projects: "_bmad/bmgd/projects/"
+
+workflows:
+  default_sequence:
+    - "game-design-doc"
+    - "architecture-planning"
+    - "implementation"
+
+modding:
+  description: "M&B Warband culture/faction development"
+  focus_areas:
+    - "Culture definitions"
+    - "Faction setup"
+    - "Troop trees"
+    - "Items and equipment"
+    - "Scenes and locations"
+    - "Scripts and triggers"
+
+  file_types:
+    - "module_*.txt"
+    - "*.py (Module System)"
+    - "*.brf (resource files)"
+    - "*.dds (textures)"
+
+notes: |
+  BMGD is primary module for game content development.
+  This project focuses on Mount & Blade: Warband modding,
+  specifically culture and faction creation.

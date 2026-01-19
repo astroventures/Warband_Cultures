@@ -1,0 +1,55 @@
+# BMAD Project Manifest
+# Generated: 2026-01-19
+# Project Init Workflow v1.0.0
+
+project:
+  name: "Warband_Cultures"
+  description: "Mount & Blade: Warband culture/faction development"
+  type: "game-modding"
+  root_path: "/Users/NPope97/Warband_Cultures"
+  created: "2026-01-19"
+
+modules:
+  primary:
+    id: "bmgd"
+    name: "Game Development Module"
+    confidence: 0.45
+    installed: "2026-01-19"
+    notes: "Selected for game content/modding workflow"
+
+  secondary:
+    - id: "bmm"
+      name: "BMAD Method Module"
+      confidence: 0.50
+      installed: "2026-01-19"
+      notes: "For software development aspects (Module System scripting)"
+
+configuration:
+  orchestration:
+    enabled: true
+    plan_driven: true
+    cursor_path: "_bmad/_orchestration/cursor.yaml"
+    plans_path: "_bmad/_orchestration/plans/"
+
+  context_budget:
+    default: 50000
+    warning_threshold: 0.7
+    critical_threshold: 0.9
+
+  checkpoints:
+    enabled: true
+    auto_checkpoint: true
+    frequency: "per_phase"
+
+status:
+  initialized: true
+  documentation_quality: "poor"
+  ready_for_planning: true
+  pending_actions:
+    - "Define project scope and vision"
+    - "Identify cultures/factions to develop"
+    - "Run workflow-init for detailed planning"
+
+metadata:
+  init_workflow_version: "1.0.0"
+  last_updated: "2026-01-19"

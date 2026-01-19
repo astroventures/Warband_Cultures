@@ -1,0 +1,439 @@
+# Orchestration Plan: Warband Cultures Mod
+# Generated: 2026-01-19
+# Plan ID: warband-cultures-20260119
+# Version: 1.1.0  # Updated after Planning Gate 1
+
+plan_metadata:
+  id: "warband-cultures-20260119"
+  name: "Warband Cultures - Dynamic Culture & Custom Unit System"
+  description: |
+    A Mount & Blade: Warband mod implementing:
+    1. Dynamic settlement culture system influenced by faction control, population, and proximity
+    2. Custom player culture creation with configurable titles
+    3. Dynamic unit tree builder with runtime unit creation
+    4. Economic system for upgrade/maintenance costs
+    5. Main menu culture management tool
+  created: "2026-01-19T12:00:00Z"
+  human_readable_location: "docs/orchestration/warband-cultures-plan.md"
+
+  technique_assessment:
+    dimensions:
+      complexity: 5
+      risk: 3
+      ambiguity: 2
+      cross_functional: 4
+      stakeholders: 0
+
+    techniques_applied:
+      - technique: "planning_gates"
+        reason: "Later phases depend on technical discoveries from earlier phases"
+      - technique: "technical_spike"
+        reason: "Module System capabilities must be prototyped before detailed design"
+
+request_summary: |
+  Create a Warband mod with:
+  - Dynamic culture system where settlement culture changes based on faction control,
+    population density, and proximity (culture % scales with square of cultural control)
+  - Custom player culture with configurable titles (king/khan, lord/jarl, etc.)
+  - Dynamic unit tree builder: customize recruits at faction start, build tree through upgrades
+  - Unit creation flow: assign stats/skills (constrained), select equipment based on tier/stats
+  - Equipment as loadouts (grouped weapons kits), 1-3 options per armor slot
+  - Fork constraints: max 2 branches per unit, ~4 forks total or 1 per tier
+  - Economic system: upgrade costs from equipment, maintenance based on loadout
+  - Vassal cost sharing with sentiment effects
+  - Main menu tool for culture configuration outside campaigns
+
+context_budget:
+  total: 75000
+  allocation:
+    epic_1_foundation: 15000
+    epic_2_culture: 12000
+    epic_3_unit_tree: 20000
+    epic_4_economics: 10000
+    epic_5_menu_tool: 10000
+    epic_6_integration: 8000
+
+execution_profile:
+  strategy: "sequential_with_gates"
+  parallelization: "within_epic_only"
+  checkpoint_frequency: "per_epic"
+
+  risks:
+    - risk: "Presentation system too limited for complex UI"
+      mitigation: "Technical spike in Epic 1; simplify UI if needed"
+      severity: "medium"
+    - risk: "100 template troops insufficient"
+      mitigation: "Can increase to 150-200 if needed; monitor fork usage"
+      severity: "low"
+    - risk: "Save compatibility issues"
+      mitigation: "Use proven slot system; test incrementally"
+      severity: "medium"
+
+# ===========================================================================
+# PHASES (EPICS)
+# ===========================================================================
+phases:
+  # EPIC 1: FOUNDATION & TECHNICAL SPIKE
+  - phase_id: 1
+    name: "Foundation & Technical Spike"
+    objective: "Set up dev environment, prototype key systems to validate approach"
+
+    sub_workflows:
+      - "bmad:core:workflows:pre-execution-validation"
+      - "bmad:bmgd:workflows:research"
+
+    agents:
+      - "bmm-codebase-analyzer"
+      - "bmm-pattern-detector"
+
+    tasks:
+      - task_id: "1.1"
+        name: "Download and Set Up Module System"
+        outputs: ["Working Module System", "Successful Native compilation"]
+      - task_id: "1.2"
+        name: "Analyze Existing Recruitment System"
+        outputs: ["Recruitment system documentation", "Slot usage map"]
+      - task_id: "1.3"
+        name: "Prototype Presentation System"
+        outputs: ["Presentation capabilities doc", "Test presentation code"]
+      - task_id: "1.4"
+        name: "Prototype Troop Slot System"
+        outputs: ["Slot system proof of concept", "Save persistence verification"]
+      - task_id: "1.5"
+        name: "Analyze Existing Troop/Faction Structure"
+        outputs: ["Troop tier analysis", "Economic pattern analysis"]
+
+    context_budget: 15000
+    checkpoint: true
+    timeout: "4h"
+
+    deliverables:
+      - "Working Module System environment"
+      - "Technical capabilities document"
+      - "Proof of concept for key systems"
+
+  # EPIC 2: DYNAMIC CULTURE SYSTEM
+  - phase_id: 2
+    name: "Dynamic Culture System"
+    objective: "Settlement culture tracking, influence calculations, culture-based recruitment"
+    depends_on_gate: "checkpoint-1"
+    deferred_planning: false  # Detailed after Planning Gate 1
+
+    sub_workflows:
+      - "bmad:bmgd:workflows:implementation"
+      - "bmad:core:workflows:technique-execution-enforcement"
+
+    agents:
+      - "feature-dev:code-architect"
+
+    tasks:
+      - task_id: "2.1"
+        name: "Culture Initialization Script"
+        description: "Script wc_initialize_settlement_cultures - set 100% culture for owning faction"
+        outputs: ["wc_initialize_settlement_cultures script"]
+      - task_id: "2.2"
+        name: "Culture Shift Calculation Script"
+        description: "Script wc_calculate_culture_shift - daily influence algorithm with proximity"
+        outputs: ["wc_calculate_culture_shift script"]
+      - task_id: "2.3"
+        name: "Daily Culture Update Trigger"
+        description: "Simple trigger iterating all settlements every 24 hours"
+        outputs: ["24h culture update trigger"]
+      - task_id: "2.4"
+        name: "Weighted Recruitment Selection"
+        description: "Modify script_update_volunteer_troops_in_village to use culture percentages"
+        outputs: ["Modified recruitment script"]
+      - task_id: "2.5"
+        name: "Culture Display in Settlement Info"
+        description: "Show culture breakdown in settlement game menu"
+        outputs: ["Culture display in UI"]
+      - task_id: "2.6"
+        name: "Faction Change Handler"
+        description: "Script wc_on_settlement_captured - 20% instant culture boost on capture"
+        outputs: ["wc_on_settlement_captured script"]
+
+    context_budget: 12000
+    checkpoint: true
+    timeout: "3h"
+
+  # EPIC 3: CUSTOM UNIT TREE BUILDER
+  - phase_id: 3
+    name: "Custom Unit Tree Builder"
+    objective: "Template troops, unit creation UI, stat allocation, equipment selection, upgrades"
+    depends_on_gate: "checkpoint-2"
+    deferred_planning: false  # Detailed after Planning Gate 1
+
+    sub_workflows:
+      - "bmad:bmgd:workflows:implementation"
+      - "bmad:core:workflows:technique-execution-enforcement"
+
+    agents:
+      - "feature-dev:code-architect"
+      - "multi-platform-apps:ui-ux-designer"
+
+    tasks:
+      - task_id: "3.1"
+        name: "Define Template Troops"
+        description: "Add 100 template troops (wc_template_001-100) to module_troops.py"
+        outputs: ["100 template troop definitions"]
+      - task_id: "3.2"
+        name: "Template Allocation System"
+        description: "Script wc_allocate_template_troop - manage pool by culture (10 per culture)"
+        outputs: ["wc_allocate_template_troop script"]
+      - task_id: "3.3"
+        name: "Unit Creation Presentation"
+        description: "Full UI for stats/skills/equipment selection (prsnt_wc_unit_creator)"
+        outputs: ["wc_unit_creator presentation"]
+      - task_id: "3.4"
+        name: "Equipment Browser Presentation"
+        description: "Filtered equipment selection by tier/stats (prsnt_wc_equipment_browser)"
+        outputs: ["wc_equipment_browser presentation"]
+      - task_id: "3.5"
+        name: "Loadout Builder Presentation"
+        description: "Grouped weapon selection UI (prsnt_wc_loadout_builder)"
+        outputs: ["wc_loadout_builder presentation"]
+      - task_id: "3.6"
+        name: "Stat/Skill Validation Scripts"
+        description: "wc_validate_stat_allocation, wc_validate_skill_allocation - constraint enforcement"
+        outputs: ["Validation scripts"]
+      - task_id: "3.7"
+        name: "Apply Unit Configuration Script"
+        description: "Script wc_apply_unit_configuration - materialize slot data into troop"
+        outputs: ["wc_apply_unit_configuration script"]
+      - task_id: "3.8"
+        name: "Upgrade Flow Integration"
+        description: "Hook into upgrade triggers - open unit creator when path undefined"
+        outputs: ["Upgrade system integration"]
+      - task_id: "3.9"
+        name: "Display Name System"
+        description: "Dynamic unit naming (culture prefix + type suffix)"
+        outputs: ["wc_generate_unit_name script", "Name string templates"]
+
+    context_budget: 20000
+    checkpoint: true
+    timeout: "6h"
+
+  # EPIC 4: ECONOMIC SYSTEM
+  - phase_id: 4
+    name: "Economic System"
+    objective: "Unit costs based on equipment, maintenance, vassal sharing, modifications"
+    depends_on_gate: "checkpoint-3"
+    deferred_planning: false  # Detailed after Planning Gate 1
+
+    sub_workflows:
+      - "bmad:bmgd:workflows:implementation"
+
+    agents:
+      - "feature-dev:code-architect"
+
+    tasks:
+      - task_id: "4.1"
+        name: "Equipment Cost Calculator"
+        description: "Script wc_calculate_equipment_cost - sum item costs, store in slot 330"
+        outputs: ["wc_calculate_equipment_cost script"]
+      - task_id: "4.2"
+        name: "Maintenance Cost Calculator"
+        description: "Script wc_calculate_maintenance - equip_cost/100 weekly"
+        outputs: ["wc_calculate_maintenance script"]
+      - task_id: "4.3"
+        name: "Upgrade Cost Calculator"
+        description: "Script wc_calculate_upgrade_cost - equipment delta + level diff"
+        outputs: ["wc_calculate_upgrade_cost script"]
+      - task_id: "4.4"
+        name: "Modification Handler"
+        description: "Script wc_handle_unit_modification - charge/refund delta × unit count"
+        outputs: ["wc_handle_unit_modification script"]
+      - task_id: "4.5"
+        name: "Weekly Maintenance Trigger"
+        description: "168h trigger adding custom troop maintenance to wages"
+        outputs: ["Weekly maintenance trigger"]
+      - task_id: "4.6"
+        name: "Vassal Cost Sharing System"
+        description: "Toggle + calculation for player covering vassal upgrade/maintenance"
+        outputs: ["Vassal cost scripts"]
+      - task_id: "4.7"
+        name: "Cost Display Integration"
+        description: "Show costs in unit creator, party screen, finance report"
+        outputs: ["Cost UI integration"]
+
+    context_budget: 10000
+    checkpoint: true
+    timeout: "2h"
+
+  # EPIC 5: MAIN MENU CULTURE TOOL
+  - phase_id: 5
+    name: "Main Menu Culture Tool"
+    objective: "Culture management outside campaigns, custom battle integration"
+    depends_on_gate: "checkpoint-4"
+    deferred_planning: false  # Detailed after Planning Gate 1
+
+    sub_workflows:
+      - "bmad:bmgd:workflows:implementation"
+
+    agents:
+      - "feature-dev:code-architect"
+
+    tasks:
+      - task_id: "5.1"
+        name: "Main Menu Integration"
+        description: "Add 'Configure Cultures' option to main menu"
+        outputs: ["Main menu entry point"]
+      - task_id: "5.2"
+        name: "Culture Tool Presentation"
+        description: "Full culture management UI (prsnt_wc_culture_tool)"
+        outputs: ["wc_culture_tool presentation"]
+      - task_id: "5.3"
+        name: "File Save Script"
+        description: "Script wc_save_culture_to_file - export culture to Data/wc_cultures.txt"
+        outputs: ["wc_save_culture_to_file script"]
+      - task_id: "5.4"
+        name: "File Load Script"
+        description: "Script wc_load_culture_from_file - import culture at campaign start"
+        outputs: ["wc_load_culture_from_file script"]
+      - task_id: "5.5"
+        name: "Campaign Import"
+        description: "Script wc_import_culture_from_campaign - export existing campaign culture"
+        outputs: ["wc_import_culture_from_campaign script"]
+      - task_id: "5.6"
+        name: "Custom Battle Integration"
+        description: "Add custom cultures to custom battle setup"
+        outputs: ["Custom battle culture selection"]
+      - task_id: "5.7"
+        name: "Title Configuration"
+        description: "UI for king/lord title selection (King/Khan/Sultan/Emperor...)"
+        outputs: ["Title customization UI"]
+
+    context_budget: 10000
+    checkpoint: true
+    timeout: "3h"
+
+  # EPIC 6: INTEGRATION & POLISH
+  - phase_id: 6
+    name: "Integration & Polish"
+    objective: "Full integration, testing, save compatibility, Steam Workshop packaging"
+
+    sub_workflows:
+      - "bmad:core:workflows:test-suite-orchestrator"
+      - "bmad:bmgd:workflows:deployment"
+
+    agents:
+      - "debugging-toolkit:debugger"
+      - "comprehensive-review:code-reviewer"
+
+    tasks:
+      - task_id: "6.1"
+        name: "System Integration Testing"
+      - task_id: "6.2"
+        name: "Save Compatibility Testing"
+      - task_id: "6.3"
+        name: "Performance Optimization"
+      - task_id: "6.4"
+        name: "Steam Workshop Packaging"
+
+    context_budget: 8000
+    checkpoint: false
+    timeout: "2h"
+
+# ===========================================================================
+# CHECKPOINTS (PLANNING GATES)
+# ===========================================================================
+checkpoints:
+  - id: "checkpoint-1"
+    after_phase: 1
+    type: "PLANNING_GATE"
+    status: "completed"  # Completed 2026-01-19
+    description: "Detailed design for Epics 2-5 based on technical discoveries"
+    planning_gate:
+      planning_workflow: "bmad:core:workflows:planning-orchestrator"
+      inputs_from_previous_phases:
+        - "Technical capabilities document"
+        - "Presentation system limitations"
+        - "Slot system proof of concept"
+        - "Troop tier analysis"
+      expected_outputs:
+        - "Detailed UI specifications"
+        - "Slot schema design"
+        - "Culture calculation algorithms"
+      actual_outputs:
+        - "docs/design/epic-2-5-detailed-design.md"
+        - "29 detailed tasks across Epics 2-5"
+        - "Refined slot schema (300-399 troop, 400-412 settlement)"
+      requires_user_input: false
+      autonomous_execution: true
+
+  - id: "checkpoint-2"
+    after_phase: 2
+    type: "PLANNING_GATE"
+    status: "completed"  # Completed 2026-01-19
+    description: "Refine Unit Tree design based on culture system patterns"
+    planning_gate:
+      planning_workflow: "bmad:core:workflows:planning-orchestrator"
+      inputs_from_previous_phases:
+        - "Culture slot schema"
+        - "Settlement data access patterns"
+      expected_outputs:
+        - "Unit tree slot schema"
+        - "Detailed unit creation UI flow"
+      actual_outputs:
+        - "Fixed player culture factions (fac_culture_7-10)"
+        - "Resolved slot overlap (proficiencies relocated to 390-395)"
+        - "Added template allocation tracking (faction slots 200-211)"
+        - "Documented upgrade system integration approach"
+        - "Added fork propagation logic (tree_root, tree_depth slots)"
+      requires_user_input: false
+      autonomous_execution: true
+
+  - id: "checkpoint-3"
+    after_phase: 3
+    type: "PLANNING_GATE"
+    description: "Finalize economic formulas based on unit system implementation"
+    planning_gate:
+      planning_workflow: "bmad:core:workflows:planning-orchestrator"
+      inputs_from_previous_phases:
+        - "Equipment slot schema"
+        - "Loadout storage format"
+      expected_outputs:
+        - "Upgrade cost formula"
+        - "Maintenance cost formula"
+      requires_user_input: false
+      autonomous_execution: true
+
+  - id: "checkpoint-4"
+    after_phase: 4
+    type: "PLANNING_GATE"
+    description: "Design main menu tool based on complete in-game system"
+    planning_gate:
+      planning_workflow: "bmad:core:workflows:planning-orchestrator"
+      inputs_from_previous_phases:
+        - "Complete culture data structure"
+        - "Complete unit tree data structure"
+      expected_outputs:
+        - "Main menu tool architecture"
+        - "Culture export/import format"
+      requires_user_input: true
+      user_input_reason: "Confirm scope of main menu features"
+
+# ===========================================================================
+# COMPLETION CRITERIA
+# ===========================================================================
+completion_criteria:
+  - "Dynamic culture system affects recruitment at all settlements"
+  - "Player can create custom culture with titles at faction creation"
+  - "Unit tree can be built through upgrade flow"
+  - "Equipment loadouts work correctly"
+  - "Fork constraints enforced"
+  - "Economic system calculates costs correctly"
+  - "Main menu tool allows culture configuration"
+  - "Save games preserve all custom data"
+  - "Mod uploaded to Steam Workshop"
+
+# ===========================================================================
+# ROLLBACK POINTS
+# ===========================================================================
+rollback_points:
+  - after_phase: 1
+    description: "Can abandon if technical spike reveals insurmountable limitations"
+  - after_phase: 2
+    description: "Culture system can release standalone if unit system too complex"
+  - after_phase: 4
+    description: "Core mod complete; menu tool is enhancement"

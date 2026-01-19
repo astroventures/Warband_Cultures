@@ -1,0 +1,70 @@
+# Execution Cursor - Warband Cultures
+# This file tracks execution position and survives context resets
+
+active_orchestration_marker:
+  active: true
+  plan_id: "warband-cultures-20260119"
+
+cursor:
+  plan_id: "warband-cultures-20260119"
+  plan_file: "_bmad/_orchestration/plans/orch-warband-cultures-20260119.yaml"
+
+  position:
+    phase_index: 2
+    phase_id: 3
+    phase_name: "Custom Unit Tree Builder"
+    step_index: 0
+    step_id: "task_3.1"
+    step_name: "Define Template Troops"
+    state: "ready"
+
+  progress:
+    total_phases: 6
+    completed_phases: 2
+    current_phase_tasks: 9
+    completed_tasks_in_phase: 0
+    percentage: 33
+
+  timestamps:
+    plan_started: "2026-01-19T12:30:00Z"
+    last_updated: "2026-01-19T21:00:00Z"
+    current_step_started: "2026-01-19T21:00:00Z"
+    epic_1_completed: "2026-01-19T18:00:00Z"
+    planning_gate_1_completed: "2026-01-19T19:00:00Z"
+    epic_2_completed: "2026-01-19T20:00:00Z"
+    planning_gate_2_completed: "2026-01-19T21:00:00Z"
+
+  last_checkpoint: "planning_gate_2_complete"
+
+  recovery_context:
+    must_load_on_resume:
+      - "_bmad/_orchestration/plans/orch-warband-cultures-20260119.yaml"
+      - "docs/design/epic-2-5-detailed-design.md"
+      - "docs/technical/troop-slot-system-analysis.md"
+    current_task_context: |
+      PLANNING GATE 2: Complete
+
+      Deficiencies identified and fixed:
+      1. Player culture factions (fac_culture_7-10) - Added to module_factions.py
+      2. Slot overlap (proficiencies 383-388 vs horse 385-387) - Relocated profs to 390-395
+      3. Template allocation tracking - Added faction slots 200-211
+      4. Upgrade system integration - Documented custom upgrade flow in design doc
+      5. Fork propagation logic - Added tree_root, tree_depth slots (345-346)
+
+      Files modified:
+      - module_factions.py: Added 4 player culture factions
+      - module_constants.py: Added proficiency slots, faction slots, fork tracking
+      - docs/design/epic-2-5-detailed-design.md: Updated slot schema, added upgrade integration
+
+      Ready for: Epic 3 - Custom Unit Tree Builder (9 tasks)
+
+    epic_3_tasks:
+      - "3.1: Define 100 Template Troops in module_troops.py"
+      - "3.2: Template Allocation System script"
+      - "3.3: Unit Creation Presentation (prsnt_wc_unit_creator)"
+      - "3.4: Equipment Browser Presentation"
+      - "3.5: Loadout Builder Presentation"
+      - "3.6: Stat/Skill Validation Scripts"
+      - "3.7: Apply Unit Configuration Script"
+      - "3.8: Upgrade Flow Integration"
+      - "3.9: Display Name System"

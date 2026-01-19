@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "bmad-skill-registry": {
+      "command": "node",
+      "args": ["/Users/NPope97/AV_custom/_bmad/core/mcp/dist/index.js"],
+      "env": {
+        "BMAD_SKILLS_PATH": "/Users/NPope97/AV_custom/_bmad"
+      }
+    }
+  }
+}
