@@ -1,4 +1,4 @@
-874
+881
 qstr_Next_Page Next_Page
 qstr_Game_Rules:^ Game_Rules:^
 qstr_0 0
@@ -617,6 +617,13 @@ qstr_{!}{s2}^{s4}:_{reg1} {!}{s2}^{s4}:_{reg1}_({s3})
 qstr_Your_relation_with_t Your_relation_with_the_factions_are:^{s2}
 qstr_Player_renown_is_inc Player_renown_is_increased_by_100._
 qstr_Player_honor_is_incr Player_honor_is_increased_by_1_and_it_is_now_{reg7}.
+qstr_You_received_999999_ You_received_999,999_denars!
+qstr_All_stats_skills_and All_stats,_skills,_and_proficiencies_maxed!
+qstr_Best_equipment_added Best_equipment_added_to_inventory!
+qstr_You_now_own_{s1}!_Pl You_now_own_{s1}!_Player_faction_activated!
+qstr_No_settlement_found_ No_settlement_found_nearby!
+qstr_Culture_shift_calcul Culture_shift_calculated_for_all_settlements!
+qstr_Added_1000_renown_50 Added_1000_renown,_50_honor,_and_30_right_to_rule!
 qstr_{reg1}_{s1}_{reg2?ac {reg1}_{s1}_{reg2?accept:accepts}_the_offer.
 qstr_No_one_accepts_the_o No_one_accepts_the_offer.
 qstr_You_start_reading_{s You_start_reading_{s2}._After_a_few_pages,_you_feel_you_could_learn_a_lot_from_this_book._You_decide_to_keep_it_close_by_and_read_whenever_you_have_the_time.

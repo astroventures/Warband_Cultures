@@ -3152,6 +3152,167 @@ game_menus = [
        ),
 	   
 	   
+      ###########################################
+      ## WARBAND CULTURES MOD CHEATS  ##########
+      ###########################################
+
+      ("wc_cheat_header",[],"{!}--- WARBAND CULTURES MOD CHEATS ---",
+       [(jump_to_menu, "mnu_camp_cheat"),]
+       ),
+
+      ("wc_cheat_max_gold",[],"{!}WC: Give 999,999 denars",
+       [
+         (troop_add_gold, "trp_player", 999999),
+         (display_message, "@You received 999,999 denars!"),
+         (jump_to_menu, "mnu_camp_cheat"),
+        ]
+       ),
+
+      ("wc_cheat_max_stats",[],"{!}WC: Max out player stats and skills",
+       [
+         # Max attributes (63 is max)
+         (troop_raise_attribute, "trp_player", ca_strength, 63),
+         (troop_raise_attribute, "trp_player", ca_agility, 63),
+         (troop_raise_attribute, "trp_player", ca_intelligence, 63),
+         (troop_raise_attribute, "trp_player", ca_charisma, 63),
+         # Max all skills
+         (troop_raise_skill, "trp_player", skl_trade, 10),
+         (troop_raise_skill, "trp_player", skl_leadership, 10),
+         (troop_raise_skill, "trp_player", skl_prisoner_management, 10),
+         (troop_raise_skill, "trp_player", skl_persuasion, 10),
+         (troop_raise_skill, "trp_player", skl_engineer, 10),
+         (troop_raise_skill, "trp_player", skl_first_aid, 10),
+         (troop_raise_skill, "trp_player", skl_surgery, 10),
+         (troop_raise_skill, "trp_player", skl_wound_treatment, 10),
+         (troop_raise_skill, "trp_player", skl_inventory_management, 10),
+         (troop_raise_skill, "trp_player", skl_spotting, 10),
+         (troop_raise_skill, "trp_player", skl_pathfinding, 10),
+         (troop_raise_skill, "trp_player", skl_tactics, 10),
+         (troop_raise_skill, "trp_player", skl_tracking, 10),
+         (troop_raise_skill, "trp_player", skl_trainer, 10),
+         (troop_raise_skill, "trp_player", skl_ironflesh, 10),
+         (troop_raise_skill, "trp_player", skl_power_strike, 10),
+         (troop_raise_skill, "trp_player", skl_power_throw, 10),
+         (troop_raise_skill, "trp_player", skl_power_draw, 10),
+         (troop_raise_skill, "trp_player", skl_weapon_master, 10),
+         (troop_raise_skill, "trp_player", skl_shield, 10),
+         (troop_raise_skill, "trp_player", skl_athletics, 10),
+         (troop_raise_skill, "trp_player", skl_riding, 10),
+         (troop_raise_skill, "trp_player", skl_horse_archery, 10),
+         (troop_raise_skill, "trp_player", skl_looting, 10),
+         # Max proficiencies
+         (troop_raise_proficiency_linear, "trp_player", wpt_one_handed_weapon, 500),
+         (troop_raise_proficiency_linear, "trp_player", wpt_two_handed_weapon, 500),
+         (troop_raise_proficiency_linear, "trp_player", wpt_polearm, 500),
+         (troop_raise_proficiency_linear, "trp_player", wpt_archery, 500),
+         (troop_raise_proficiency_linear, "trp_player", wpt_crossbow, 500),
+         (troop_raise_proficiency_linear, "trp_player", wpt_throwing, 500),
+         (display_message, "@All stats, skills, and proficiencies maxed!"),
+         (jump_to_menu, "mnu_camp_cheat"),
+        ]
+       ),
+
+      ("wc_cheat_best_equipment",[],"{!}WC: Give best equipment (Lordly/Masterwork)",
+       [
+         # Best armor - Lordly Plate Armor
+         (troop_add_item, "trp_player", "itm_plate_armor", imod_lordly),
+         (troop_add_item, "trp_player", "itm_gauntlets", imod_lordly),
+         (troop_add_item, "trp_player", "itm_plate_boots", imod_lordly),
+         (troop_add_item, "trp_player", "itm_great_helmet", imod_lordly),
+         # Alternative helms
+         (troop_add_item, "trp_player", "itm_winged_great_helmet", imod_lordly),
+         # Best horses - Champion
+         (troop_add_item, "trp_player", "itm_charger", imod_champion),
+         (troop_add_item, "trp_player", "itm_warhorse", imod_champion),
+         (troop_add_item, "trp_player", "itm_hunter", imod_champion),
+         # Best swords - Masterwork
+         (troop_add_item, "trp_player", "itm_bastard_sword_b", imod_masterwork),
+         (troop_add_item, "trp_player", "itm_morningstar", imod_masterwork),
+         (troop_add_item, "trp_player", "itm_great_sword", imod_masterwork),
+         (troop_add_item, "trp_player", "itm_sword_medieval_d_long", imod_masterwork),
+         # Best polearms - Balanced
+         (troop_add_item, "trp_player", "itm_lance", imod_balanced),
+         (troop_add_item, "trp_player", "itm_great_lance", imod_balanced),
+         (troop_add_item, "trp_player", "itm_awlpike", imod_balanced),
+         # Best ranged - Masterwork
+         (troop_add_item, "trp_player", "itm_war_bow", imod_masterwork),
+         (troop_add_item, "trp_player", "itm_heavy_crossbow", imod_masterwork),
+         (troop_add_item, "trp_player", "itm_bodkin_arrows", imod_large_bag),
+         (troop_add_item, "trp_player", "itm_steel_bolts", imod_large_bag),
+         # Shield - Thick
+         (troop_add_item, "trp_player", "itm_tab_shield_heater_cav_b", imod_thick),
+         (troop_add_item, "trp_player", "itm_tab_shield_kite_cav_b", imod_thick),
+         (display_message, "@Best equipment added to inventory!"),
+         (jump_to_menu, "mnu_camp_cheat"),
+        ]
+       ),
+
+      ("wc_cheat_claim_settlement",[],"{!}WC: Claim nearest settlement and create faction",
+       [
+         # Find nearest center
+         (assign, ":best_center", -1),
+         (assign, ":best_dist", 999999),
+         (try_for_range, ":center", centers_begin, centers_end),
+           (store_distance_to_party_from_party, ":dist", ":center", "p_main_party"),
+           (lt, ":dist", ":best_dist"),
+           (assign, ":best_dist", ":dist"),
+           (assign, ":best_center", ":center"),
+         (try_end),
+         (try_begin),
+           (gt, ":best_center", 0),
+           # Set player as lord
+           (call_script, "script_give_center_to_lord", ":best_center", "trp_player", 0),
+           # Make player faction active
+           (faction_set_slot, "fac_player_supporters_faction", slot_faction_state, sfs_active),
+           (str_store_party_name, s1, ":best_center"),
+           (display_message, "@You now own {s1}! Player faction activated!"),
+         (else_try),
+           (display_message, "@No settlement found nearby!"),
+         (try_end),
+         (jump_to_menu, "mnu_camp_cheat"),
+        ]
+       ),
+
+      ("wc_cheat_set_culture",[],"{!}WC: Set settlement culture (opens tool)",
+       [
+         # Open the culture tool presentation
+         (start_presentation, "prsnt_wc_culture_tool"),
+        ]
+       ),
+
+      ("wc_cheat_open_unit_creator",[],"{!}WC: Open Unit Creator (Tier 5)",
+       [
+         (assign, "$wc_creator_tier", 5),
+         (assign, "$wc_creator_culture", "fac_player_faction"),
+         (assign, "$wc_creator_str", 0),
+         (start_presentation, "prsnt_wc_unit_creator"),
+        ]
+       ),
+
+      ("wc_cheat_force_culture_shift",[],"{!}WC: Force culture shift (all settlements)",
+       [
+         (try_for_range, ":center", centers_begin, centers_end),
+           (call_script, "script_wc_calculate_culture_shift", ":center"),
+         (try_end),
+         (display_message, "@Culture shift calculated for all settlements!"),
+         (jump_to_menu, "mnu_camp_cheat"),
+        ]
+       ),
+
+      ("wc_cheat_add_renown_honor",[],"{!}WC: Add 1000 renown and 50 honor",
+       [
+         (call_script, "script_change_troop_renown", "trp_player", 1000),
+         (val_add, "$player_honor", 50),
+         (val_add, "$player_right_to_rule", 30),
+         (display_message, "@Added 1000 renown, 50 honor, and 30 right to rule!"),
+         (jump_to_menu, "mnu_camp_cheat"),
+        ]
+       ),
+
+      ###########################################
+      ## END WARBAND CULTURES MOD CHEATS  ######
+      ###########################################
+
       ("back_to_camp_menu",[],"{!}Back to camp menu.",
        [
          (jump_to_menu, "mnu_camp"),
@@ -3159,7 +3320,7 @@ game_menus = [
        ),
       ]
   ),
-  
+
   ("cheat_find_item",0,
    "{!}Current item range: {reg5} to {reg6}",
    "none",
